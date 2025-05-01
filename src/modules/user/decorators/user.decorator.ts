@@ -1,25 +1,27 @@
 import { createParamDecorator, ExecutionContext } from "@nestjs/common";
 
-// criando um decorator para atender as necessidades do usuário
+// criando um decorator para atender as necessidades do retorno das informações do usuário;
 
 interface UserPayload {
-    user : {
 
-        // ainda para ser definido
-
-        id : string;
-        email : string;
-
-    }
+    id : string;
+    full_name : string;
+    username : string;
+    followers : string[];
+    following : string[]; 
+        
 }
 
-const User = createParamDecorator(
-    ( data : unknown, ctx : ExecutionContext  ) => {
+const User = createParamDecorator
+    < keyof UserPayload >
+(
+    ( data : string, ctx : ExecutionContext  ) => {
 
-        const request : UserPayload = ctx.switchToHttp().getRequest();
-        return request.user;
+        const request = ctx.switchToHttp().getRequest();
+        const user = request.user as UserPayload;
+        return data ? user?.[data] : user;
 
-    }, // tipo unknown para qualquer tipo de dados a ser definidos, evitando any
+    },
 )
 
 export { User }; 
