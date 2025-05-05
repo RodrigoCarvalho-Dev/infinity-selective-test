@@ -1,27 +1,26 @@
-import { createParamDecorator, ExecutionContext } from "@nestjs/common";
+import {
+  createParamDecorator,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { User as UserTypeSupabase } from '@supabase/supabase-js';
+import { Request } from 'express';
 
-// criando um decorator para atender as necessidades do retorno das informações do usuário;
+// criando um decorator para atender as necessidades do retorno das informações do usuário já autenticado;
 
-interface UserPayload {
+const User = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext): UserTypeSupabase => {
+    const request: Request = ctx.switchToHttp().getRequest();
+    const { ...user } = request.user;
 
-    id : string;
-    full_name : string;
-    username : string;
-    followers : string[];
-    following : string[]; 
-        
-}
+    if (user === undefined)
+      throw new UnauthorizedException({
+        message: 'error on get user',
+        status: 401,
+      });
 
-const User = createParamDecorator
-    < keyof UserPayload >
-(
-    ( data : string, ctx : ExecutionContext  ) => {
+    return user;
+  },
+);
 
-        const request = ctx.switchToHttp().getRequest();
-        const user = request.user as UserPayload;
-        return data ? user?.[data] : user;
-
-    },
-)
-
-export { User }; 
+export { User };

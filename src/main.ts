@@ -1,8 +1,26 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.use(cookieParser());
+  app.enableCors();
+
+  const config = new DocumentBuilder()
+    .setTitle('Teste Infinity')
+    .setDescription('Api sobre processo de seleção com criação de tabelas e autenticação')
+    .setVersion('1.0')
+    .addBearerAuth() 
+    .build();
+
+  
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api-docs', app, document); // http://localhost:3000/api-docs
+
   await app.listen(process.env.PORT ?? 3000);
 }
-bootstrap();
+bootstrap().catch((err) => {
+  console.error(`type of error in the main.ts: ${err}`);
+});

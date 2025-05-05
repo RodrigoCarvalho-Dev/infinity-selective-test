@@ -1,20 +1,33 @@
-import { Injectable } from "@nestjs/common";
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable()
 export class SupabaseService {
-    private supabase : SupabaseClient;
+  private supabase: SupabaseClient;
 
-    constructor() {
-        this.supabase = createClient( 
-            String(process.env.SUPABASE_URL),
-            String(process.env.SUPABASE_ANON_KEY)
-        )
+  constructor(private configService: ConfigService) {
+    const supabaseUrl = this.configService.get<string>('SUPABASE_URL');
+    const supabaseKey = this.configService.get<string>('SUPABASE_ANON_KEY');
+
+    if (!supabaseUrl || !supabaseKey) {
+      throw new Error('Missing Supabase credentials');
     }
 
-    public getSupabaseClient() : SupabaseClient {
-        return this.supabase;
+    this.supabase = createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
+
+    if (this.supabase) {
+      console.log('Connected to Supabase');
     }
+  }
 
-
+  public getSupabaseClient(): SupabaseClient {
+    return this.supabase;
+  }
 }
