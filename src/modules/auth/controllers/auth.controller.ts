@@ -23,7 +23,7 @@ export class AuthController {
 
   @Public()
   @ApiOperation({ summary: 'Registro de usuário' })
-  @ApiBody({ type: RegisterDto }) 
+  @ApiBody({ type: RegisterDto })
   @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Post('register')
   async register(
@@ -62,7 +62,7 @@ export class AuthController {
   }
 
   @ApiOperation({ summary: 'Login de usuário' })
-  @ApiBody({ type: LoginDto }) 
+  @ApiBody({ type: LoginDto })
   @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Public()
   @Get('login')
@@ -74,7 +74,6 @@ export class AuthController {
     },
     @Res() res: Response,
   ) {
-
     const data = await this.authService.login({
       email: body.email,
       password: body.password,
@@ -99,7 +98,7 @@ export class AuthController {
       status: HttpStatus.OK,
       id: data.user?.id,
       email: data.user?.email,
-      access_token: data.session.access_token
+      access_token: data.session.access_token,
     });
   }
 

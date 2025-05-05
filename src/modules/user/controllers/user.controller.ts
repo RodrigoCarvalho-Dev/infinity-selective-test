@@ -19,7 +19,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @ApiOperation({ summary: 'pegar profile pelo username' }) 
+  @ApiOperation({ summary: 'pegar profile pelo username' })
   @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Public()
   @Get(':username')
@@ -45,8 +45,8 @@ export class UserController {
     });
   }
 
-  @ApiOperation({ summary: "seguir o usuário com username e autenticado" }) 
-  @ApiResponse({ status: 200, description: "efetuado com sucesso." })
+  @ApiOperation({ summary: 'seguir o usuário com username e autenticado' })
+  @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Post('follow/:username')
   @UseGuards(SupabaseAuthGuard)
   async followUser(

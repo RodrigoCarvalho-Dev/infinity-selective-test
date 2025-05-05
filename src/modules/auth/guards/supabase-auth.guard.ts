@@ -60,7 +60,7 @@ export class SupabaseAuthGuard implements CanActivate {
     // const [type, token] = request.headers.authorization?.split(" ") ?? [];
     // return type === 'Bearer' ? token : undefined;
 
-    const token : string = request.cookies?.['access-token'];
+    const token: string = request.cookies?.['access-token'];
 
     return token ?? null;
   }

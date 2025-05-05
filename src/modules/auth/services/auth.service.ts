@@ -7,7 +7,6 @@ import { SupabaseService } from 'src/modules/supabase/services/supabase.service'
 import { RegisterDto } from '../dto/register.dto';
 import { PrismaService } from 'src/modules/prisma/services/prisma.service';
 import { LoginDto } from '../dto/login.dto';
-import { emitWarning } from 'process';
 
 @Injectable()
 export class AuthService {
