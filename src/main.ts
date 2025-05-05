@@ -9,8 +9,8 @@ async function bootstrap() {
   app.enableCors();
 
   const config = new DocumentBuilder()
-    .setTitle('Teste Infinity')
-    .setDescription('Api sobre processo de seleção com criação de tabelas e autenticação')
+    .setTitle('Teste seleção Infinity')
+    .setDescription('Api experimental apenas para o teste, muitas coisas podem ser irrelevantes, utilize o README.md. feito para processo de seleção com criação de tabelas e autenticação')
     .setVersion('1.0')
     .addBearerAuth() 
     .build();

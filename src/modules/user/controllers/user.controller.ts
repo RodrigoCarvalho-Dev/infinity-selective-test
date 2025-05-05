@@ -13,11 +13,14 @@ import { SupabaseAuthGuard } from 'src/modules/auth/guards/supabase-auth.guard';
 import { User } from '../decorators/user.decorator';
 import { User as UserTypeSupabase } from '@supabase/supabase-js';
 import { UserService } from '../services/user.service';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  @ApiOperation({ summary: 'pegar profile pelo username' }) 
+  @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Public()
   @Get(':username')
   async getUserByUsername(
@@ -42,6 +45,8 @@ export class UserController {
     });
   }
 
+  @ApiOperation({ summary: "seguir o usuário com username e autenticado" }) 
+  @ApiResponse({ status: 200, description: "efetuado com sucesso." })
   @Post('follow/:username')
   @UseGuards(SupabaseAuthGuard)
   async followUser(
@@ -65,6 +70,9 @@ export class UserController {
     });
   }
 
+  @Public()
+  @ApiOperation({ summary: 'desseguir de usuário e autenticado' })
+  @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Post('unfollow/:username')
   @UseGuards(SupabaseAuthGuard)
   async unfollowUser(

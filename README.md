@@ -51,6 +51,11 @@ $ yarn run start:prod
 
 # Rotas da Aplicação
 
+## Rota para Documentação
+```typescript
+GET /api-docs
+```
+
 ## Rotas de autenticação
 
 ```typescript

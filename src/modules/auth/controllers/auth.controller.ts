@@ -15,16 +15,16 @@ import { User } from 'src/modules/user/decorators/user.decorator';
 import { User as UserTypeSupabase } from '@supabase/supabase-js';
 import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { RegisterDto } from '../dto/register.dto';
+import { LoginDto } from '../dto/login.dto';
 
 @Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
-  @ApiOperation({ summary: 'Login de usuário' })
+  @ApiOperation({ summary: 'Registro de usuário' })
   @ApiBody({ type: RegisterDto }) 
-  @ApiResponse({ status: 200, description: 'Login efetuado com sucesso.' })
-  @ApiResponse({ status: 401, description: 'Usuário ou senha incorretos.' })
+  @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Post('register')
   async register(
     @Body()
@@ -61,6 +61,9 @@ export class AuthController {
     });
   }
 
+  @ApiOperation({ summary: 'Login de usuário' })
+  @ApiBody({ type: LoginDto }) 
+  @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Public()
   @Get('login')
   async login(
@@ -96,10 +99,12 @@ export class AuthController {
       status: HttpStatus.OK,
       id: data.user?.id,
       email: data.user?.email,
-      access_token: data.session.access_token, // utilizando cookies, nao precisa do access_token
+      access_token: data.session.access_token
     });
   }
 
+  @ApiOperation({ summary: 'Pegar usuario autenticado de usuário' })
+  @ApiResponse({ status: 200, description: 'efetuado com sucesso.' })
   @Get('me')
   @UseGuards(SupabaseAuthGuard)
   getMe(@User() user: UserTypeSupabase, @Res() res: Response): Response {
