@@ -12,7 +12,7 @@
 
 ## o que é utilizado no projeto
 
-no projeto é utilizado tanto o prisma para criação de tabelas quanto o auth nativo do supabase para autenticação
+no projeto é utilizado tanto o prisma para criação de tabelas quanto o auth nativo do supabase para autenticação, além de cookies para guardar a autenticação e usá-la sem o uso de tokens, porém é disponibilizado os tokens mesmo assim
 
 
 ## Instalar Depedências do Projeto
